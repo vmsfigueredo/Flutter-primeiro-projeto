@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:primeiro_projeto_em_flutter/data/task_inherited.dart';
+import 'package:primeiro_projeto_em_flutter/components/task.dart';
+import 'package:primeiro_projeto_em_flutter/data/task_dao.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key, required this.taskContext});
@@ -147,10 +150,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                               print(imageController.text);
                             }
 
-                            TaskInherited.of(widget.taskContext).newTask(
+                            TaskDao().save(Task(
                                 titleController.text,
                                 imageController.text,
-                                int.parse(difficultyController.text));
+                                int.parse(difficultyController.text)));
 
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
