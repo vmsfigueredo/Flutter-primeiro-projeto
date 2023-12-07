@@ -26,18 +26,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         color: Colors.blue[100],
         child: ListView(
-          children: [
-            ...TaskInherited.of(context).taskList,
-            const SizedBox(
-              height: 80,
-            )
-          ],
+          padding: const EdgeInsets.only(top: 8, bottom: 70),
+          children: TaskInherited.of(context).taskList,
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const NewTaskScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (newContext) => NewTaskScreen(
+                        taskContext: context,
+                      )));
         },
         child: const Icon(Icons.add),
       ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:primeiro_projeto_em_flutter/data/task_inherited.dart';
-import 'package:primeiro_projeto_em_flutter/screens/example_screen.dart';
 import 'package:primeiro_projeto_em_flutter/screens/home_screen.dart';
-import 'package:primeiro_projeto_em_flutter/screens/new_task_screen.dart';
 
 void main() {
   runApp(MyApp());

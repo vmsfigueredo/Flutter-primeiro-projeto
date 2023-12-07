@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:primeiro_projeto_em_flutter/data/task_inherited.dart';
 
 class NewTaskScreen extends StatefulWidget {
-  const NewTaskScreen({super.key});
+  const NewTaskScreen({super.key, required this.taskContext});
+
+  final BuildContext taskContext;
 
   @override
   State<NewTaskScreen> createState() => _NewTaskScreenState();
@@ -14,6 +17,22 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   TextEditingController imageController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  bool valueValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  bool difficultyValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) > 5 || int.parse(value) < 1) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +65,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           validator: (String? value) {
-                            if (value != null && value.isEmpty) {
+                            if (valueValidator(value)) {
                               return "Insira o nome da tarefa";
                             }
                             return null;
@@ -63,9 +82,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           validator: (String? value) {
-                            if (value!.isEmpty ||
-                                int.parse(value) > 5 ||
-                                int.parse(value) < 1) {
+                            if (difficultyValidator(value)) {
                               return "Insira uma dificuldade válida (1 a 5)";
                             }
                             return null;
@@ -86,7 +103,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                             setState(() {});
                           },
                           validator: (String? value) {
-                            if (value!.isEmpty) {
+                            if (valueValidator(value)) {
                               return "Insira uma imagem para a tarefa";
                             }
                             return null;
@@ -129,9 +146,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                               print(int.parse(difficultyController.text));
                               print(imageController.text);
                             }
-                            Navigator.pop(context);
+
+                            TaskInherited.of(widget.taskContext).newTask(
+                                titleController.text,
+                                imageController.text,
+                                int.parse(difficultyController.text));
+
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Enviado!')));
+                                const SnackBar(
+                                    content: Text('Tarefa adicionada!')));
+
+                            Navigator.pop(context);
                           }
                         },
                         child: const Text('Salvar'),
